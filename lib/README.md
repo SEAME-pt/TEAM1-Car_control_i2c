@@ -85,10 +85,9 @@ This library implements I²C communication to control **two DC motors** and **on
 
 ### Example: Motor Control
 
-```c++
+```c
 int main() {
-
-	I2c::All_init();
+    I2c::init(0x60, 0x40, "/dev/i2c-1");
     I2c::motor(0, 100, 1);
     sleep(5);
     I2c::stop_motors();
@@ -99,7 +98,7 @@ int main() {
 
 ### Motor Control Function
 
-```c++
+```c
 void I2c::motor(int mot, int speed, bool dir);
 ```
 
@@ -113,80 +112,9 @@ void I2c::motor(int mot, int speed, bool dir);
 
 To stop the motors, either set the speed to **0** or use:
 
-```c++
+```c
 I2c::stop_motors();
 ```
-In case of any doubt use the  I2c::stop_motors(); for reset the motors. 
 
 
-# INA219
-
-The **INA219** is an I²C chip responsible for providing battery information such as **voltage**, **current**, and **power**.
-
-## Class Structure
-
-The `I2c_INA219` class is included within the `I2c` class, so initialization can be done simply with:
-
-```cpp
-
-	I2c::All_init();
-```
-
-The sensor readings are stored in the following `I2c` class variables:
-
-```cpp
-I2c::_Voltage;
-I2c::_Current;
-I2c::_Power;
-```
-
-## Updating Values
-
-To manually update the sensor readings, use:
-
-```cpp
-I2c_INA219::update_values();
-```
-
-## Automatic Update on Print
-
-When using the print function, the values are automatically updated before being displayed:
-
-```cpp
-I2c_INA219::print();
-```
-
----
-
-### Summary
-
-| Function                      | Description                                            |
-| ----------------------------- | ------------------------------------------------------ |
-| `I2c_INA219::update_values()` | Updates the voltage, current, and power readings.      |
-| `I2c_INA219::print()`         | Automatically updates and prints the current readings. |
-| `I2c::stop_motors()`          | Example of how to initialize the `I2c` class.          |
-
----
-
-### Notes
-
-* Make sure your I²C bus is properly initialized before calling any INA219 functions.
-* The `I2c_INA219` class handles sensor communication and stores data internally for easy access.
-
----
-
-
-## CMake
-
-### Basic Usage
-
-To build the project using **CMake**, follow these steps:
-
-1. Create a folder named `build` (if it does not already exist).  
-   If it exists, remove all existing files inside it to ensure a clean build.
-
-2. Inside the `build` directory, run the following command to generate the Makefiles using `CMakeLists.txt`:
-
-   ```bash
-   cmake ..
 
