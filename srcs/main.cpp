@@ -1,27 +1,44 @@
 #include "../lib/include/I2c.hpp"
 
-int main() {
+#include "../include/I2c_PcA9685.hpp"
+#include <unistd.h>
+#include <iostream>
 
+int main() {
+    std::cout << "Inicializando I2C..." << std::endl;
     I2c::All_init();
 
+    // --- Teste volante ---
+    std::cout << "Servo para 90° (centro)" << std::endl;
+    I2c::set_servo_angle(90);
+    sleep(2);
 
+    std::cout << "Servo para 150° (direita)" << std::endl;
     I2c::set_servo_angle(150);
-    I2c::motor(0,50,1);
+    sleep(2);
 
+    std::cout << "Servo para 30° (esquerda)" << std::endl;
+    I2c::set_servo_angle(30);
+    sleep(2);
 
+    // --- Teste motores ---
+    std::cout << "Motor ambos para frente 50%" << std::endl;
+    I2c::motor(0, 50, true);  // dir = true -> forward
     sleep(3);
     I2c::stop_motors();
 
-    I2c::set_servo_angle(90);
-	I2c::motor(0,50,0);
-
-
+    std::cout << "Motor ambos para trás 50%" << std::endl;
+    I2c::motor(0, 50, false); // dir = false -> reverse
     sleep(3);
+    I2c::stop_motors();
 
-
+    std::cout << "Teste concluído. Freando motores..." << std::endl;
     I2c::brake_motor();
+
+    I2c::end_motor_use();
     return 0;
 }
+
 
 /*
 #include "../lib/include/I2c.hpp"
