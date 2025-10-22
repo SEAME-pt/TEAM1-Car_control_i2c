@@ -118,40 +118,37 @@ void I2c_PcA9685::set_servo_angle( float angle) {
     }
 
 
-void I2c_PcA9685::motor(int mot,int seepd,bool dir)
+void I2c_PcA9685::motor(int mot, int speed, bool dir)
 {
-	_fd_set = _fd_mot;
-    	float adjusted_throttle = (float)seepd/100 * (float)dir;
-        float duty = adjusted_throttle;
-	if (adjusted_throttle < 0.0f)
-        	float duty = -adjusted_throttle;
-	if(mot == 1)
-	{
-	set_pwm_duty(0, duty);  // Motor 1 speed
-        set_pwm_duty(1, 1.0f);  // Direction 1
-        set_pwm_duty(2, 0.0f);  // Direction 2
-        set_pwm_duty(3, 0.0f);  // Motor 2 speed
-        set_pwm_duty(4, duty);
-	}
-	if(mot == 2)
-	{
-        set_pwm_duty(5, 0.0f);  // Direction 2
-        set_pwm_duty(6, 1.0f);  // Direction 1
-        set_pwm_duty(7, duty);  // Motor 2 speed
-	}
-	if(mot == 0)
-	{
-	set_pwm_duty(0, duty);  // Motor 1 speed
-        set_pwm_duty(1, 1.0f);  // Direction 1
-        set_pwm_duty(2, 0.0f);  // Direction 2
-        set_pwm_duty(3, 0.0f);  // Motor 2 speed
-        set_pwm_duty(4, duty);  // Motor 2 speed
-        set_pwm_duty(5, 0.0f);  // Direction 2
-        set_pwm_duty(6, 1.0f);  // Direction 1
-        set_pwm_duty(7, duty);  // Motor 2 speed
-	}
-	
+    _fd_set = _fd_mot;
+
+    // Limita speed entre 0 e 100
+    if (speed < 0) speed = 0;
+    if (speed > 100) speed = 100;
+
+    float duty = speed / 100.0f;
+
+    if (mot == 0) { // ambos motores
+        if (dir) { // forward
+            set_pwm_duty(0, duty);  // motor 1 speed
+            set_pwm_duty(1, 1.0f);  // direction 1
+            set_pwm_duty(2, 0.0f);  // direction 2
+            set_pwm_duty(3, duty);  // motor 2 speed
+            set_pwm_duty(4, 1.0f);  // direction 1
+            set_pwm_duty(5, 0.0f);  // direction 2
+        } else { // reverse
+            set_pwm_duty(0, duty);  // motor 1 speed
+            set_pwm_duty(1, 0.0f);  // direction 1
+            set_pwm_duty(2, 1.0f);  // direction 2
+            set_pwm_duty(3, duty);  // motor 2 speed
+            set_pwm_duty(4, 0.0f);  // direction 1
+            set_pwm_duty(5, 1.0f);  // direction 2
+        }
+    }
+
+    // Para mot == 1 ou mot == 2 podes fazer semelhante
 }
+
 
 void I2c_PcA9685::brake_motor()
 {
