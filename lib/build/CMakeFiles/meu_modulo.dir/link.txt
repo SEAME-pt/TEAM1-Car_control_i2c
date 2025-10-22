@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmeu_modulo.a CMakeFiles/meu_modulo.dir/srcs/I2c_PcA9685.cpp.o
+/usr/bin/ranlib libmeu_modulo.a

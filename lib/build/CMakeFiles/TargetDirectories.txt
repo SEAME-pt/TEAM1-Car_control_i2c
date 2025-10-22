@@ -1,0 +1,6 @@
+/home/joao41/git/TEAM1_I2C/build/CMakeFiles/lib_i2c.dir
+/home/joao41/git/TEAM1_I2C/build/CMakeFiles/lib.dir
+/home/joao41/git/TEAM1_I2C/build/CMakeFiles/testes.dir
+/home/joao41/git/TEAM1_I2C/build/CMakeFiles/test.dir
+/home/joao41/git/TEAM1_I2C/build/CMakeFiles/edit_cache.dir
+/home/joao41/git/TEAM1_I2C/build/CMakeFiles/rebuild_cache.dir

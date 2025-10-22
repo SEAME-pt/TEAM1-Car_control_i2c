@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/testes.dir/test/main.cpp.o CMakeFiles/testes.dir/srcs/I2c.cpp.o CMakeFiles/testes.dir/srcs/I2c_PcA9685.cpp.o CMakeFiles/testes.dir/srcs/I2c_INA219.cpp.o -o testes 

@@ -1,0 +1,6 @@
+-std=c++17
+-I/usr/include
+-I/include
+-I/usr/local/include
+-I/include
+
