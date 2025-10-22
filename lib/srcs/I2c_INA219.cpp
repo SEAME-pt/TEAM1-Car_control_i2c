@@ -1,4 +1,5 @@
 #include "../include/I2c_INA219.hpp"
+#include <cstdint>
 
 #define REG_CONFIG             0x00
 #define REG_SHUNT_VOLTAGE      0x01
@@ -62,7 +63,7 @@ void I2c_INA219::init( uint8_t addr,std::string i2c_device)
 
 
 
-void I2c_INA219::update_vaules()
+void I2c_INA219::update_values()
 {
     try
     {
@@ -102,13 +103,16 @@ void I2c_INA219::update_vaules()
 
 void I2c_INA219::print()
 {
-	    std::cout << "==========================" << std::endl;
+	I2c_INA219::update_values();
+
+    std::cout << "==========================" << std::endl;
     std::cout << "INA219 - finich write" << std::endl;
     std::cout << "--------------------------" << std::endl;
     std::cout << "Voltage (Vbus): " << _Voltage << " V" << std::endl;
     std::cout << "Current: " << _Current << " mA" << std::endl;
     std::cout << "Power: " << _Power << " mW" << std::endl;
     std::cout << "==========================" << std::endl;
+
 
 }
 

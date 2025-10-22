@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblib_i2c.a CMakeFiles/lib_i2c.dir/srcs/I2c.cpp.o CMakeFiles/lib_i2c.dir/srcs/I2c_PcA9685.cpp.o CMakeFiles/lib_i2c.dir/srcs/I2c_INA219.cpp.o
-/usr/bin/ranlib liblib_i2c.a

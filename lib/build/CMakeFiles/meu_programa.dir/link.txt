@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/meu_programa.dir/srcs/I2c_PcA9685.cpp.o -o meu_programa 

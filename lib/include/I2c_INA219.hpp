@@ -7,6 +7,7 @@
 
 
 
+#include <cstdint>
 
 class I2c_INA219
 {
@@ -22,7 +23,7 @@ class I2c_INA219
 		static uint16_t readRegister(int fd, uint8_t reg);
 	public: 
 		static void init( uint8_t addr_servo, std::string i2c_device );
-		static void update_vaules();
+		static void update_values();
 		static void print();
 };
 
