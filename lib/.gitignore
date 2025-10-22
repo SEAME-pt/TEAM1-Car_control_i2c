@@ -1,6 +1,1 @@
 build/
-./a.out
-*.o
-*.obj
-*.so
-*.exe
