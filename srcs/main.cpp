@@ -39,6 +39,13 @@
 #include <iostream>
 #include "../lib/sdl.h"
 
+void signalHandler(int signum) {
+	std::cout << "Interrupt signal (" << signum << ") received.\n";
+	I2c::stop_all(); 
+	SDL_Quit();
+	exit(signum);  
+}
+
 double mapAxisToAngle(double axisValue, double angleMin, double angleMax, double angleCenter) {
     if (axisValue < 0) {
         // Map [-1, 0] -> [angleMin, angleCenter]
@@ -51,6 +58,8 @@ double mapAxisToAngle(double axisValue, double angleMin, double angleMax, double
 
 int main() 
 {
+
+    signal(SIGINT, signalHandler);
 	int steering = 60;
 	int throttle = 0;
 	if (SDL_Init(SDL_INIT_JOYSTICK) < 0) {
