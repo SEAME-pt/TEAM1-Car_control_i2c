@@ -144,7 +144,7 @@ int main()
 		}
 		//std::cout << "Steering PWM: " << steering << " Throttle PWM: " << -throttle << std::endl;
 		
-		SDL_Delay(20);
+		SDL_Delay(100);
 	}
 
 	SDL_JoystickClose(joystick);
