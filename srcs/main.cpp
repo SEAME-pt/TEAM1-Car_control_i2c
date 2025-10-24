@@ -99,7 +99,7 @@ int main()
 		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
 
 		steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
-		throttle = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
+		throttle = static_cast<int>(mapAxisToAngle(axis1, -80, 80, 0));
 
 		I2c::set_servo_angle(steering);
 		
@@ -128,7 +128,7 @@ int main()
 		}
 		//std::cout << "Steering PWM: " << steering << " Throttle PWM: " << -throttle << std::endl;
 		
-		SDL_Delay(10);
+		SDL_Delay(20);
 	}
 
 	SDL_JoystickClose(joystick);
