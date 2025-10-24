@@ -104,18 +104,26 @@ int main()
 		I2c::set_servo_angle(steering);
 		try
 		{
-				if (throttle > 0) {
-			I2c::motor(0, throttle, 1); // Forward
-		} else if (throttle < 0) {
-			I2c::motor(0, -throttle, 0); // Backward
-		} else {
-			I2c::stop_motors(); // Stop
-		}
+			std::cout << "Steering Angle: " << steering << " Throttle: " << throttle << "\r";
+			std::cout.flush();
+			if (throttle > 0) 
+			{
+				
+				I2c::motor(0, throttle, 1); // Forward
+			} 
+			else if (throttle < 0) 
+			{
+				I2c::motor(0, -throttle, 0); // Backward
+			} 	
+			else 
+			{
+				I2c::stop_motors(); // Stop
+			}
 		}
 		catch (const std::exception& ex)
 		{
 			std::cerr << "Exception caught while setting motor speed: " << ex.what() << std::endl;
-			I2c::stop_all()
+			I2c::stop_all();
 		}
 
 		while (SDL_PollEvent(&e))
