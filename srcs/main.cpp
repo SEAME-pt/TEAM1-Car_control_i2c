@@ -66,10 +66,8 @@ int main() {
 						SDL_Quit();
 						return 0;
 					}
-					if (e.jbutton.button == 10) {
-						std::cout << "pressed x" << std::endl;
-						break ;
-					}
+					 std::cout << "JOY BUTTON UP: index=" << static_cast<int>(e.jbutton.button)
+                              << " value=" << static_cast<int>(e.jbutton.state) << std::endl;
 			}
 		}
 		//SDL_CONTROLLER_BUTTON_START
