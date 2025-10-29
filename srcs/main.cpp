@@ -45,13 +45,12 @@ int main() {
 
 		I2c::set_servo_angle(steering);
 
-		if (throttle > 0) {
+		if (throttle > 0)
 			I2c::motor(0, throttle, 1); // Backward
-		} else if (throttle < 0) {
+		else if (throttle < 0)
 			I2c::motor(0, -throttle, 0); // Forward
-		} else {
+		else
 			I2c::stop_motors(); // Stop
-		}
 
 		while (SDL_PollEvent(&e)) {
 
