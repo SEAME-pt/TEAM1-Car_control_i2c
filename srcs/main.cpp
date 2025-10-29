@@ -43,8 +43,6 @@ int main() {
 
 		//steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
 		throttle = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
-		
-		I2c::set_servo_angle(60);
 
 		while (SDL_PollEvent(&e)) {
 
@@ -65,10 +63,6 @@ int main() {
 				}
 
 			} */
-			while (SDL_JOYBUTTONDOWN) {
-
-				std::cout << i++ << std::endl;
-			}
 		}
 		SDL_Delay(15);
 	}
