@@ -47,6 +47,7 @@ int main() {
 		I2c::set_servo_angle(steering);
 
 		if (throttle > 0) {
+			std::cout << "anda pra frente bino" << std::endl;
 			I2c::motor(0, throttle, 1); // Forward
 		} else if (throttle < 0) {
 			I2c::motor(0, -throttle, 0); // Backward
