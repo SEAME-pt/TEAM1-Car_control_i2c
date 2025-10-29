@@ -24,7 +24,7 @@ int main() {
 
 	int steering = MID_ANGLE;
 	int throttle = 0;
-	SDL_Joystick *joystick;
+	SDL_Joystick *joystick = NULL;
 
 	signal(SIGINT, signalHandler);
 
