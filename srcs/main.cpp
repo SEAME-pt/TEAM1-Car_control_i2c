@@ -57,7 +57,6 @@ int main() {
 		}
 		if (SDL_PollEvent(&e)) {
 
-			std::cout << "SDL POLL started" << std::endl;
 			switch (e.type) {
 				case SDL_JOYBUTTONDOWN:
 					if (e.jbutton.button == START_BUTTON) {
@@ -67,8 +66,8 @@ int main() {
 						SDL_Quit();
 						return 0;
 					}
-					if (e.jbutton.button) {
-						std::cout << e.jbutton.button << std::endl;
+					if (e.jbutton.button == 10) {
+						std::cout << "pressed x" << std::endl;
 						break ;
 					}
 			}
