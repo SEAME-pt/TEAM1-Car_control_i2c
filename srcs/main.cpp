@@ -38,11 +38,19 @@ int main() {
 	SDL_Event e;
 	while (true) {
 
-		//float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
+		float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
 		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
 
-		//steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
+		steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
 		throttle = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
+
+		if (throttle > 0) {
+			I2c::motor(0, throttle, 1); // Forward
+		} else if (throttle < 0) {
+			I2c::motor(0, -throttle, 0); // Backward
+		} else {
+			I2c::stop_motors(); // Stop
+		}
 
 		while (SDL_PollEvent(&e)) {
 
@@ -54,13 +62,7 @@ int main() {
 				return 0;
 			} /* else if (e.jbutton.button == L2_BUTTON) {
 
-				if (throttle > 0) {
-					I2c::motor(0, throttle, 1); // Forward
-				} else if (throttle < 0) {
-					I2c::motor(0, -throttle, 0); // Backward
-				} else {
-					I2c::stop_motors(); // Stop
-				}
+				
 
 			} */
 		}
