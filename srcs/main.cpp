@@ -35,7 +35,7 @@ int main() {
 	}
 
 	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
+	while (true) {
 
 		std::cout << "The loop began bitches!" << std::endl;
 
