@@ -15,7 +15,7 @@
 #define A_BUTTON		0
 #define B_BUTTON		1
 #define Y_BUTTON		4
-#define R1_BUTTO		7
-#define R2_BUTTO		9
+#define R1_BUTTON		7
+#define R2_BUTTON		9
 #define L1_BUTTON		6
 #define L2_BUTTON		8
