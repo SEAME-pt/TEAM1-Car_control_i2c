@@ -37,21 +37,14 @@ int main() {
 	SDL_Event e;
 	while (true) {
 
-		float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
+		//float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
 		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
 
-		steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
+		//steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
 		throttle = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
 		
-		I2c::set_servo_angle(steering);
+		I2c::set_servo_angle(60);
 
-		if (throttle > 0) {
-			I2c::motor(0, throttle, 1); // Forward
-		} else if (throttle < 0) {
-			I2c::motor(0, -throttle, 0); // Backward
-		} else {
-			I2c::stop_motors(); // Stop
-		}
 		while (SDL_PollEvent(&e)) {
 
 			if (e.jbutton.button == START_BUTTON) {
@@ -60,9 +53,19 @@ int main() {
 				I2c::stop_all(); 
 				SDL_Quit();
 				return 0;
-			} else if (e.jbutton.button == A_BUTTON) {
-				std::cout << "hellooooo bitcheeeeeees!" << std::endl;
-			}
+			} /* else if (e.jbutton.button == L2_BUTTON) {
+
+				if (throttle > 0) {
+					I2c::motor(0, throttle, 1); // Forward
+				} else if (throttle < 0) {
+					I2c::motor(0, -throttle, 0); // Backward
+				} else {
+					I2c::stop_motors(); // Stop
+				}
+
+			} */
+			if (SDL_JOYBUTTONDOWN)
+				std::cout << "buttom down" << std::endl;
 		}
 		SDL_Delay(15);
 	}
