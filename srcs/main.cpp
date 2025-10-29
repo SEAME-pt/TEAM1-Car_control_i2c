@@ -22,6 +22,7 @@ double mapAxisToAngle(double axisValue, double angleMin, double angleMax, double
 
 int main() {
 
+	int i = 0;
 	int steering = MID_ANGLE;
 	int throttle = 0;
 	SDL_Joystick *joystick = NULL;
@@ -64,8 +65,8 @@ int main() {
 				}
 
 			} */
-			if (SDL_JOYBUTTONDOWN)
-				std::cout << "buttom down" << std::endl;
+			while (SDL_JOYBUTTONDOWN)
+				std::cout << i++ << std::endl;
 		}
 		SDL_Delay(15);
 	}
