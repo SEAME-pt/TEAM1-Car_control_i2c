@@ -47,10 +47,9 @@ int main() {
 		I2c::set_servo_angle(steering);
 
 		if (throttle > 0) {
-			std::cout << "anda pra frente bino" << std::endl;
-			I2c::motor(0, throttle, 1); // Forward
+			I2c::motor(0, throttle, 1); // Backward
 		} else if (throttle < 0) {
-			I2c::motor(0, -throttle, 0); // Backward
+			I2c::motor(0, -throttle, 0); // Forward
 		} else {
 			I2c::stop_motors(); // Stop
 		}
@@ -63,11 +62,9 @@ int main() {
 				I2c::stop_all(); 
 				SDL_Quit();
 				return 0;
-			} /* else if (e.jbutton.button == L2_BUTTON) {
-
+			} else if (e.jbutton.button == A_BUTTON) {
 				
-
-			} */
+			}
 		}
 		SDL_Delay(15);
 	}
