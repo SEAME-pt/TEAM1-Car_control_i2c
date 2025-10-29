@@ -41,7 +41,7 @@ int main()
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 
-		std::cout << "The loop began bitches!" << std::endl
+		std::cout << "The loop began bitches!" << std::endl;
 
 		float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
 		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
