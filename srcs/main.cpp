@@ -49,7 +49,7 @@ int main() {
 		if (throttle > 0) {
 			I2c::motor(0, throttle, 1); // Forward
 		} else if (throttle < 0) {
-			I2c::motor(0, -throttle, 0); // Backward
+			I2c::motor(0, throttle, 0); // Backward
 		} else {
 			I2c::stop_motors(); // Stop
 		}
