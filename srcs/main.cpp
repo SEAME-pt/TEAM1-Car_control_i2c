@@ -1,5 +1,5 @@
 #include "../include/sdl.h"
-#include "init.cpp"
+#include "initCar.cpp"
 
 //Axis value (range: -32768 to 32767)
 
@@ -30,10 +30,13 @@ int main()
 	signal(SIGINT, signalHandler);
 
 	try {
-		joystick = init();
+		joystick = initCar();
 	} catch (std::exception(&e)) {
 		std::cerr << e.what() << std::endl;
 	}
+
+	I2c::init(0x60,0x40,"/dev/i2c-1");
+	I2c::set_servo_angle(MID_ANGLE);
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -78,7 +81,7 @@ int main()
 	return (0);
 }
 
-//c++ srcs/main.cpp lib/TEAM1_I2C/srcs/I2c_PcA9685.cpp -lSDL2
+//c++ srcs/main.cpp libs/TEAM1_I2C/srcs/I2c_PcA9685.cpp -lSDL2
 
 /* int main() {
 	
