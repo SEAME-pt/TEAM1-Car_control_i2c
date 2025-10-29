@@ -5,7 +5,7 @@
 #include <csignal>
 #include <unistd.h>
 
-#include "../libs/i2c/include/I2c.hpp"
+#include "../libs/include/I2c.hpp"
 #include "exceptions.hpp"
 
 SDL_Joystick* initCar();
