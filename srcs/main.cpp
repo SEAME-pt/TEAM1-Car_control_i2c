@@ -1,43 +1,7 @@
-#include "../lib/TEAM1_I2C/include/I2c_PcA9685.hpp"
-#include <unistd.h>
-#include <iostream>
-
-/* int main() {
-	
-	I2c::init(0x60,0x40,"/dev/i2c-1");
-	I2c::set_servo_angle(60);
-	I2c::motor(0,50,1);
-	sleep(3);
-
-	I2c::stop_motors();
-	I2c::set_servo_angle(120);
-	I2c::motor(0,50,1);
-	sleep(3);
-
-	I2c::stop_motors();
-	I2c::set_servo_angle(60);
-	I2c::motor(0,50,0);
-	sleep(3);
-
-	I2c::stop_motors();
-	I2c::set_servo_angle(0);
-	I2c::motor(0,50,0);
-	sleep(3);
-
-	I2c::set_servo_angle(60);
-	I2c::motor(0,50,0);
-
-	I2c::stop_motors();
-} */
-
-
-
+#include "../include/sdl.h"
+#include "init.cpp"
 
 //Axis value (range: -32768 to 32767)
-
-#include <SDL2/SDL.h>
-#include <iostream>
-#include "../lib/sdl.h"
 
 void signalHandler(int signum) {
 	std::cout << "Interrupt signal (" << signum << ") received.\n";
@@ -59,41 +23,20 @@ double mapAxisToAngle(double axisValue, double angleMin, double angleMax, double
 int main() 
 {
 
-    signal(SIGINT, signalHandler);
-	int steering = 60;
+	int steering = MID_ANGLE;
 	int throttle = 0;
-	if (SDL_Init(SDL_INIT_JOYSTICK) < 0) {
-		std::cerr << "ERROR! SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-		return (1);
+	SDL_Joystick *joystick;
+
+	signal(SIGINT, signalHandler);
+
+	try {
+		joystick = init();
+	} catch (std::exception(&e)) {
+		std::cerr << e.what() << std::endl;
 	}
-
-	if(SDL_NumJoysticks() <= 0) {
-		std::cerr << "ERROR! No Joysticks detected: " << SDL_GetError() << std::endl;
-		return (1);
-	}
-	I2c::init(0x60,0x40,"/dev/i2c-1");
-	I2c::set_servo_angle(steering);
-	SDL_Joystick *joystick = SDL_JoystickOpen(index_0_controller);
-	if (joystick == nullptr) {
-		std::cerr << "ERROR! Failed to open joystick: " << SDL_GetError() << std::endl;
-		return (1);
-	}
-
-	std::cout << "Joystick detected: " << SDL_JoystickName(joystick) << std::endl;
-
-	//int16 x_move, y_move;
-
-	/* while (true) {
-
-		x_move = SDL_JoystickGetAxis(joystick, 0);
-		y_move = SDL_JoystickGetAxis(joystick, 1);
-
-		std::cout << x_move << "\n" << y_move << std::endl;
-	} */
 
 	SDL_Event e;
-	while (true) 
-	{
+	while (SDL_PollEvent(&e)) {
 
 		float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
 		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
@@ -127,7 +70,7 @@ int main()
 		}
 		std::cout << "Steering PWM: " << steering << " Throttle PWM: " << -throttle << std::endl;
 		
-		SDL_Delay(10);
+		SDL_Delay(50);
 	}
 
 	SDL_JoystickClose(joystick);
@@ -136,3 +79,31 @@ int main()
 }
 
 //c++ srcs/main.cpp lib/TEAM1_I2C/srcs/I2c_PcA9685.cpp -lSDL2
+
+/* int main() {
+	
+	I2c::init(0x60,0x40,"/dev/i2c-1");
+	I2c::set_servo_angle(60);
+	I2c::motor(0,50,1);
+	sleep(3);
+
+	I2c::stop_motors();
+	I2c::set_servo_angle(120);
+	I2c::motor(0,50,1);
+	sleep(3);
+
+	I2c::stop_motors();
+	I2c::set_servo_angle(60);
+	I2c::motor(0,50,0);
+	sleep(3);
+
+	I2c::stop_motors();
+	I2c::set_servo_angle(0);
+	I2c::motor(0,50,0);
+	sleep(3);
+
+	I2c::set_servo_angle(60);
+	I2c::motor(0,50,0);
+
+	I2c::stop_motors();
+} */
