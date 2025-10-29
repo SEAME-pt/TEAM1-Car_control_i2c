@@ -112,8 +112,7 @@ int main()
 		}
 		if (SDL_PollEvent(&e))
 		{
-			switch (e.type)
-			{
+			switch (e.type) {
 				case SDL_JOYBUTTONDOWN:
 					if (e.jbutton.button == 11) // Assuming button 0 is the 'A' button
 					{
@@ -126,7 +125,7 @@ int main()
 					break;
 			}
 		}
-		//std::cout << "Steering PWM: " << steering << " Throttle PWM: " << -throttle << std::endl;
+		std::cout << "Steering PWM: " << steering << " Throttle PWM: " << -throttle << std::endl;
 		
 		SDL_Delay(10);
 	}
