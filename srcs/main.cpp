@@ -48,6 +48,8 @@ int main() {
 		steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
 		throttle = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
 		
+		I2c::set_servo_angle(steering);
+
 		if (throttle > 0) {
 			I2c::motor(0, throttle, 1); // Forward
 		} else if (throttle < 0) {
@@ -75,7 +77,7 @@ int main() {
 		}
 		std::cout << "Steering PWM: " << steering << " Throttle PWM: " << -throttle << std::endl;
 		//SDL_CONTROLLER_BUTTON_START
-		SDL_Delay(50);
+		SDL_Delay(10);
 	}
 
 	std::cout << "The loop ended bitches!" << std::endl;
