@@ -43,61 +43,39 @@ int main() {
 	SDL_Event e;
 	while (true) {
 
-		// steering axis (left/right). If your controller reports left as positive, use -axis0.
-        float axis0 = SDL_JoystickGetAxis(joystick, 0) / 32767.0f; // steering
-        // throttle axis (forward/back)
-        float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
+		//float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
+		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
 
-        // compute steering angle from axis0 (left -> angleMin, right -> angleMax)
-        int steeringAngle = static_cast<int>(mapAxisToAngle(axis0, 0, 120, MID_ANGLE));
-        I2c::set_servo_angle(steeringAngle); // steer
+		//steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
+		throttleAngle = static_cast<int>(mapAxisToAngle(axis1, 0, 120, 60));
+		throttleDir = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
 
-        // speed magnitude based on axis1 absolute value (0..100)
-        int speed = static_cast<int>(std::min(1.0f, std::fabs(axis1)) * 100);
+		I2c::set_servo_angle(throttleAngle);
+
+		throttleDir > 1 ? I2c::motor(0, throttleDir, 1) : I2c::motor(0, throttleDir, 0);
+
+		if (throttleDir > 0) {
+			I2c::motor(0, throttleDir, 1); // Forward
+		} else if (throttleDir < 0) {
+			I2c::motor(0, throttleDir, 0); // Backward
+		} else {
+			I2c::stop_motors(); // Stop
+		}
 
 		while (SDL_PollEvent(&e)) {
-            switch (e.type) {
-                case SDL_JOYBUTTONDOWN:
-                    // set button state when pressed
-                    if (e.jbutton.button == R2_BUTTON) 
-						r2 = true;
-                    else if (e.jbutton.button == L2_BUTTON) 
-						l2 = true;
-                    else if (e.jbutton.button == START_BUTTON) {
-                        std::cout << "Button start pressed. Exiting...\n";
-                        SDL_JoystickClose(joystick);
-                        I2c::stop_all();
-                        SDL_Quit();
-                        return 0;
-                    }
-                    break ;
 
-                case SDL_JOYBUTTONUP:
-                    // clear button state when released
-                    if (e.jbutton.button == R2_BUTTON) 
-						r2 = false;
-                    else if (e.jbutton.button == L2_BUTTON) 
-						l2 = false;
-                    break ;
-
-                case SDL_JOYAXISMOTION:
-                    // optional: debug axis changes
-                    // std::cout << "AXIS " << static_cast<int>(e.jaxis.axis) << " value=" << e.jaxis.value << std::endl;
-                    break;
-
-                default:
-                    break;
-            }
-			// decide motion: R2 = forward, L2 = backward, otherwise stop
-        	if (r2 && !l2) {
-            	I2c::motor(0, speed, 1); // forward
-        	} else if (l2 && !r2) {
-            	I2c::motor(0, speed, 0); // backward
-        	} else {
-            	I2c::stop_motors(); // stop if neither or both pressed
-        	}
-        	SDL_Delay(15);
-        }
+			if (e.jbutton.button == START_BUTTON) {
+				std::cout << "Button start pressed. Exiting...\n";
+				SDL_JoystickClose(joystick);
+				I2c::stop_all(); 
+				SDL_Quit();
+				return 0;
+			} else if (e.jbutton.button == L2_BUTTON)
+				l2 = true;
+			else if (e.jbutton.button == R2_BUTTON)
+				r2 = true;
+		}
+		SDL_Delay(15);
 	}
 
 	std::cout << "The loop ended bitches!" << std::endl;
