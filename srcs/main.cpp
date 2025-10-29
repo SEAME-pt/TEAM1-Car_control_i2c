@@ -94,8 +94,9 @@ int main() {
         	} else {
             	I2c::stop_motors(); // stop if neither or both pressed
         	}
-        SDL_Delay(15);
+        	SDL_Delay(15);
         }
+	}
 
 	std::cout << "The loop ended bitches!" << std::endl;
 	SDL_JoystickClose(joystick);
