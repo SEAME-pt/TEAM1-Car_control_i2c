@@ -40,8 +40,6 @@ int main() {
 	SDL_Event e;
 	while (true) {
 
-		std::cout << "The loop began bitches!" << std::endl;
-
 		float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
 		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
 
@@ -78,7 +76,6 @@ int main() {
 					}
 			}
 		}
-		std::cout << "Steering PWM: " << steering << " Throttle PWM: " << -throttle << std::endl;
 		//SDL_CONTROLLER_BUTTON_START
 		SDL_Delay(10);
 	}
