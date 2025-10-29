@@ -70,8 +70,11 @@ int main() {
 						return 0;
 					}
 					if (e.jbutton.button == SDL_CONTROLLER_BUTTON_X) {
-						std::cout << "pressed button X?" << std::endl;
-						break;
+						std::cout << "Button X pressed. Exiting...\n";
+						SDL_JoystickClose(joystick);
+						I2c::stop_all(); 
+						SDL_Quit();
+						return 0;
 					}
 			}
 		}
