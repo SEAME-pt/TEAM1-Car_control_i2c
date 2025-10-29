@@ -20,8 +20,7 @@ double mapAxisToAngle(double axisValue, double angleMin, double angleMax, double
     }
 }
 
-int main() 
-{
+int main() {
 
 	int steering = MID_ANGLE;
 	int throttle = 0;
@@ -34,9 +33,6 @@ int main()
 	} catch (std::exception(&e)) {
 		std::cerr << e.what() << std::endl;
 	}
-
-	I2c::init(0x60,0x40,"/dev/i2c-1");
-	I2c::set_servo_angle(MID_ANGLE);
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -58,23 +54,25 @@ int main()
 		} else {
 			I2c::stop_motors(); // Stop
 		}
-		if (SDL_PollEvent(&e))
-		{
+		if (SDL_PollEvent(&e)) {
+
 			switch (e.type) {
 				case SDL_JOYBUTTONDOWN:
-					if (e.jbutton.button == 11) // Assuming button 0 is the 'A' button
-					{
+					if (e.jbutton.button == 11) {
 						std::cout << "Button A pressed. Exiting...\n";
 						SDL_JoystickClose(joystick);
 						I2c::stop_all(); 
 						SDL_Quit();
 						return 0;
 					}
-					break;
+					if (e.jbutton.button == SDL_CONTROLLER_BUTTON_X) {
+						std::cout << "pressed button X?" << std::endl;
+						break;
+					}
 			}
 		}
 		std::cout << "Steering PWM: " << steering << " Throttle PWM: " << -throttle << std::endl;
-		
+		//SDL_CONTROLLER_BUTTON_START
 		SDL_Delay(50);
 	}
 
