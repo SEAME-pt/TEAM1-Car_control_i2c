@@ -24,12 +24,7 @@ int main() {
 
 	int i = 0;
 	int steering = MID_ANGLE;
-	int throttleAngle = 0;
-	int throttleDir = 0;
-
-	bool l2 = false;
-	bool r2 = false;
-
+	int throttle = 0;
 	SDL_Joystick *joystick = NULL;
 
 	signal(SIGINT, signalHandler);
@@ -43,21 +38,18 @@ int main() {
 	SDL_Event e;
 	while (true) {
 
-		//float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
+		float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
 		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
 
-		//steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
-		throttleAngle = static_cast<int>(mapAxisToAngle(axis1, 0, 120, 60));
-		throttleDir = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
+		steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
+		throttle = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
 
-		I2c::set_servo_angle(throttleAngle);
+		I2c::set_servo_angle(steering);
 
-		throttleDir > 1 ? I2c::motor(0, throttleDir, 1) : I2c::motor(0, throttleDir, 0);
-
-		if (throttleDir > 0) {
-			I2c::motor(0, throttleDir, 1); // Forward
-		} else if (throttleDir < 0) {
-			I2c::motor(0, throttleDir, 0); // Backward
+		if (throttle > 0) {
+			I2c::motor(0, throttle, 1); // Forward
+		} else if (throttle < 0) {
+			I2c::motor(0, -throttle, 0); // Backward
 		} else {
 			I2c::stop_motors(); // Stop
 		}
@@ -70,10 +62,11 @@ int main() {
 				I2c::stop_all(); 
 				SDL_Quit();
 				return 0;
-			} else if (e.jbutton.button == L2_BUTTON)
-				l2 = true;
-			else if (e.jbutton.button == R2_BUTTON)
-				r2 = true;
+			} /* else if (e.jbutton.button == L2_BUTTON) {
+
+				
+
+			} */
 		}
 		SDL_Delay(15);
 	}
