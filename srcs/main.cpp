@@ -1,5 +1,4 @@
 #include "../include/sdl.h"
-#include "initCar.cpp"
 
 //Axis value (range: -32768 to 32767)
 
@@ -75,5 +74,5 @@ int main() {
 	return (0);
 }
 
-//c++ srcs/main.cpp libs/TEAM1_I2C/srcs/I2c_PcA9685.cpp -lSDL2
+//c++ srcs/main.cpp srcs/initCar.cpp libs/i2c/srcs/I2c.cpp libs/i2c/srcs/I2c_PcA9685.cpp libs/i2c/srcs/I2c_INA219.cpp -lSDL2
 // git submodule update --init --recursive
