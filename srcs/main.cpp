@@ -68,7 +68,7 @@ int main() {
 						return 0;
 					}
 					if (e.jbutton.button) {
-						std::cout << "e.jbutton.button\n";
+						std::cout << e.jbutton.button << std::endl;
 						break ;
 					}
 			}
