@@ -81,19 +81,8 @@ int main()
 
 	std::cout << "Joystick detected: " << SDL_JoystickName(joystick) << std::endl;
 
-	//int16 x_move, y_move;
-
-	/* while (true) {
-
-		x_move = SDL_JoystickGetAxis(joystick, 0);
-		y_move = SDL_JoystickGetAxis(joystick, 1);
-
-		std::cout << x_move << "\n" << y_move << std::endl;
-	} */
-
 	SDL_Event e;
-	while (true) 
-	{
+	while (true) {
 
 		float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
 		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
