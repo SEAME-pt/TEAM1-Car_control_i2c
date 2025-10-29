@@ -34,9 +34,6 @@ int main() {
 		std::cerr << e.what() << std::endl;
 	}
 
-	I2c::init(0x60,0x40,"/dev/i2c-1");
-	I2c::set_servo_angle(MID_ANGLE);
-
 	SDL_Event e;
 	while (true) {
 
@@ -64,11 +61,10 @@ int main() {
 				SDL_Quit();
 				return 0;
 			} else if (e.jbutton.button == A_BUTTON) {
-				std::cout << "helooooo" << std::endl;
+				std::cout << "hellooooo bitcheeeeeees!" << std::endl;
 			}
 		}
-		//SDL_CONTROLLER_BUTTON_START
-		SDL_Delay(10);
+		SDL_Delay(15);
 	}
 
 	std::cout << "The loop ended bitches!" << std::endl;

@@ -15,5 +15,8 @@ SDL_Joystick* initCar() {
 		throw (GenException::InitException());
 	std::cout << "Joystick detected: " << SDL_JoystickName(joystick) << std::endl;
  
+	I2c::init(0x60,0x40,"/dev/i2c-1");
+	I2c::set_servo_angle(MID_ANGLE);
+
 	return (joystick);
 }
