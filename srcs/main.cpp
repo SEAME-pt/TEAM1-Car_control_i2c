@@ -34,6 +34,9 @@ int main() {
 		std::cerr << e.what() << std::endl;
 	}
 
+	I2c::init(0x60,0x40,"/dev/i2c-1");
+	I2c::set_servo_angle(MID_ANGLE);
+
 	SDL_Event e;
 	while (true) {
 
@@ -44,8 +47,6 @@ int main() {
 
 		steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
 		throttle = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
-
-		I2c::set_servo_angle(steering);
 		
 		if (throttle > 0) {
 			I2c::motor(0, throttle, 1); // Forward
@@ -60,7 +61,7 @@ int main() {
 			switch (e.type) {
 				case SDL_JOYBUTTONDOWN:
 					if (e.jbutton.button == 11) {
-						std::cout << "Button A pressed. Exiting...\n";
+						std::cout << "Button start pressed. Exiting...\n";
 						SDL_JoystickClose(joystick);
 						I2c::stop_all(); 
 						SDL_Quit();
