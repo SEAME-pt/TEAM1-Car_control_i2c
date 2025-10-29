@@ -43,14 +43,16 @@ int main() {
 	SDL_Event e;
 	while (true) {
 
-		//float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
-		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
+		// steering axis (left/right). If your controller reports left as positive, use -axis0.
+        float axis0 = SDL_JoystickGetAxis(joystick, 0) / 32767.0f; // steering
+        // throttle axis (forward/back)
+        float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
 
-		// angle is decided directly from axis1
-        throttleAngle = static_cast<int>(mapAxisToAngle(axis1, 0, 120, 60));
-        I2c::set_servo_angle(throttleAngle);
+        // compute steering angle from axis0 (left -> angleMin, right -> angleMax)
+        int steeringAngle = static_cast<int>(mapAxisToAngle(axis0, 0, 120, MID_ANGLE));
+        I2c::set_servo_angle(steeringAngle); // steer
 
-        // speed magnitude based on axis absolute value (0..100)
+        // speed magnitude based on axis1 absolute value (0..100)
         int speed = static_cast<int>(std::min(1.0f, std::fabs(axis1)) * 100);
 
 		while (SDL_PollEvent(&e)) {
