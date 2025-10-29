@@ -60,19 +60,16 @@ int main() {
 			std::cout << "SDL POLL started" << std::endl;
 			switch (e.type) {
 				case SDL_JOYBUTTONDOWN:
-					if (e.jbutton.button == SDL_CONTROLLER_BUTTON_START) {
+					if (e.jbutton.button == START_BUTTON) {
 						std::cout << "Button start pressed. Exiting...\n";
 						SDL_JoystickClose(joystick);
 						I2c::stop_all(); 
 						SDL_Quit();
 						return 0;
 					}
-					if (e.jbutton.button == 11) {
-						std::cout << "Button X pressed. Exiting...\n";
-						SDL_JoystickClose(joystick);
-						I2c::stop_all(); 
-						SDL_Quit();
-						return 0;
+					if (e.jbutton.button) {
+						std::cout << "e.jbutton.button\n";
+						break ;
 					}
 			}
 		}
