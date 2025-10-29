@@ -65,8 +65,10 @@ int main() {
 				}
 
 			} */
-			while (SDL_JOYBUTTONDOWN)
+			while (SDL_JOYBUTTONDOWN) {
+
 				std::cout << i++ << std::endl;
+			}
 		}
 		SDL_Delay(15);
 	}
