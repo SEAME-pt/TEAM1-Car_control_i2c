@@ -55,19 +55,16 @@ int main() {
 		} else {
 			I2c::stop_motors(); // Stop
 		}
-		if (SDL_PollEvent(&e)) {
+		while (SDL_PollEvent(&e)) {
 
-			switch (e.type) {
-				case SDL_JOYBUTTONDOWN:
-					if (e.jbutton.button == START_BUTTON) {
-						std::cout << "Button start pressed. Exiting...\n";
-						SDL_JoystickClose(joystick);
-						I2c::stop_all(); 
-						SDL_Quit();
-						return 0;
-					}
-					 std::cout << "JOY BUTTON UP: index=" << static_cast<int>(e.jbutton.button)
-                              << " value=" << static_cast<int>(e.jbutton.state) << std::endl;
+			if (e.jbutton.button == START_BUTTON) {
+				std::cout << "Button start pressed. Exiting...\n";
+				SDL_JoystickClose(joystick);
+				I2c::stop_all(); 
+				SDL_Quit();
+				return 0;
+			} else if (e.jbutton.button == A_BUTTON) {
+				std::cout << "helooooo" << std::endl;
 			}
 		}
 		//SDL_CONTROLLER_BUTTON_START
