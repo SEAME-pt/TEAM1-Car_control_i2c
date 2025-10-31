@@ -8,7 +8,11 @@
 #include "../libs/include/I2c.hpp"
 #include "exceptions.hpp"
 
-SDL_Joystick* initCar();
+SDL_Joystick*   initCar();
+void            cleanExit();
+
+
+extern SDL_Joystick*    g_joystick;
 
 #define CONTROLLER_0    0
 #define MID_ANGLE       60

@@ -16,5 +16,16 @@ SDL_Joystick* initCar() {
     I2c::All_init();
     I2c::set_servo_angle(MID_ANGLE);
 
-    return joystick;
+    return (joystick);
+}
+
+
+void	cleanExit() {
+
+	 if (g_joystick) {
+		 SDL_JoystickClose(g_joystick);
+		 g_joystick = nullptr;
+	 }
+	I2c::stop_all();
+    SDL_Quit();
 }

@@ -1,15 +1,18 @@
 #include "../include/sdl.h"
 
+// define the global joystick instance to properlly vlear after sigint
+SDL_Joystick* g_joystick = nullptr;
+
 //Axis value (range: -32768 to 32767)
 
 void signalHandler(int signum) {
-	std::cout << "Interrupt signal (" << signum << ") received.\n";
-	I2c::stop_all(); 
-	SDL_Quit();
-	exit(signum);  
+
+    std::cout << "Interrupt signal (" << signum << ") received.\n";
+	cleanExit();
+    exit(signum);
 }
 
-double mapAxisToAngle(double axisValue, double angleMin, double angleMax, double angleCenter) {
+static double mapAxisToAngle(double axisValue, double angleMin, double angleMax, double angleCenter) {
     if (axisValue < 0) {
         // Map [-1, 0] -> [angleMin, angleCenter]
         return ((angleCenter - angleMin) * (axisValue - (-1)) / (0 - (-1)) + angleMin);
@@ -28,11 +31,14 @@ int main() {
 
 	signal(SIGINT, signalHandler);
 
-	try {
-		joystick = initCar();
-	} catch (std::exception(&e)) {
-		std::cerr << e.what() << std::endl;
-	}
+    try {
+        joystick = initCar();
+        // store global for signal handler / cleanup
+        g_joystick = joystick;
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return (1);
+    }
 
 	SDL_Event e;
 	while (true) {
@@ -45,33 +51,27 @@ int main() {
 
 		I2c::set_servo_angle(steering);
 
-		if (throttle > 0) {
+		if (throttle > 0)
 			I2c::motor(0, throttle, 1); // Backward
-		} else if (throttle < 0) {
+		else if (throttle < 0)
 			I2c::motor(0, -throttle, 0); // Forward
-		} else {
+		else
 			I2c::stop_motors(); // Stop
-		}
 
 		while (SDL_PollEvent(&e)) {
 
 			if (e.jbutton.button == START_BUTTON) {
 				std::cout << "Button start pressed. Exiting...\n";
-				SDL_JoystickClose(joystick);
-				I2c::stop_all(); 
-				SDL_Quit();
-				return 0;
-			} else if (e.jbutton.button == A_BUTTON) {
-				
+				cleanExit();
+				return (0);
 			}
+			SDL_Delay(15);
 		}
-		SDL_Delay(15);
 	}
+    std::cout << "The loop ended bitches!" << std::endl;
 
-	std::cout << "The loop ended bitches!" << std::endl;
-	SDL_JoystickClose(joystick);
-	SDL_Quit();
-	return (0);
+    cleanExit();
+    return (0);
 }
 
 //c++ srcs/main.cpp srcs/initCar.cpp libs/srcs/I2c.cpp libs/srcs/I2c_PcA9685.cpp libs/srcs/I2c_INA219.cpp -lSDL2
