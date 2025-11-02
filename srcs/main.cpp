@@ -1,38 +1,25 @@
 #include "../include/sdl.h"
 
-// define the global joystick instance to properlly vlear after sigint
-SDL_Joystick* g_joystick = nullptr;
+// define the global joystick instance to properlly clear after sigint
+SDL_Joystick*	g_joystick = nullptr;
+
+// global variable to count pulses on the wheel
+int				g_pulses = 0;
 
 //Axis value (range: -32768 to 32767)
 
-void signalHandler(int signum) {
-
-    std::cout << "Interrupt signal (" << signum << ") received.\n";
-	cleanExit();
-    exit(signum);
-}
-
-static double mapAxisToAngle(double axisValue, double angleMin, double angleMax, double angleCenter) {
-    if (axisValue < 0) {
-        // Map [-1, 0] -> [angleMin, angleCenter]
-        return ((angleCenter - angleMin) * (axisValue - (-1)) / (0 - (-1)) + angleMin);
-    } else {
-        // Map [0, 1] -> [angleCenter, angleMax]
-        return ((angleMax - angleCenter) * (axisValue - 0) / (1 - 0) + angleCenter);
-    }
-}
-
 int main() {
 
-	int i = 0;
-	int steering = MID_ANGLE;
-	int throttle = 0;
+	int steering = MID_ANGLE;		//rotation
+	int throttle = 0;				//direction & speed
 	SDL_Joystick *joystick = NULL;
 
 	signal(SIGINT, signalHandler);
 
     try {
+		initGpio();
         joystick = initCar();
+
         // store global for signal handler / cleanup
         g_joystick = joystick;
     } catch (std::exception &e) {
@@ -43,11 +30,11 @@ int main() {
 	SDL_Event e;
 	while (true) {
 
-		float axis0 = SDL_JoystickGetAxis(joystick, 2) / 32767.0f; // steering
-		float axis1 = SDL_JoystickGetAxis(joystick, 1) / 32767.0f; // throttle
+		float axisSteering = SDL_JoystickGetAxis(joystick, 2) / MAX_AXIS_VALUE;
+		float axisThrottle = SDL_JoystickGetAxis(joystick, 1) / MAX_AXIS_VALUE;
 
-		steering = static_cast<int>(mapAxisToAngle(axis0, 0, 120, 60));
-		throttle = static_cast<int>(mapAxisToAngle(axis1, -100, 100, 0));
+		steering = static_cast<int>(mapAxisToAngle(axisSteering, 0, 120, 60));
+		throttle = static_cast<int>(mapAxisToAngle(axisThrottle, -100, 100, 0));
 
 		I2c::set_servo_angle(steering);
 
@@ -58,6 +45,11 @@ int main() {
 		else
 			I2c::stop_motors(); // Stop
 
+		g_pulses = 0;
+        double rpm = (g_pulses / 5.0) * 60.0 / PULSES_WHEEL;
+        printf("Pulsos=%d, RPM≈%.1f\n", g_pulses, rpm);
+
+		SDL_Delay(30);
 		while (SDL_PollEvent(&e)) {
 
 			if (e.jbutton.button == START_BUTTON) {
@@ -65,7 +57,6 @@ int main() {
 				cleanExit();
 				return (0);
 			}
-			SDL_Delay(15);
 		}
 	}
     std::cout << "The loop ended bitches!" << std::endl;
