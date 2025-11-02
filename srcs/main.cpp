@@ -3,11 +3,6 @@
 // define the global joystick instance to properlly clear after sigint
 SDL_Joystick*	g_joystick = nullptr;
 
-// global variable to count pulses on the wheel
-int				g_pulses = 0;
-
-//Axis value (range: -32768 to 32767)
-
 int main() {
 
 	int steering = MID_ANGLE;		//rotation
@@ -45,22 +40,27 @@ int main() {
 		else
 			I2c::stop_motors(); // Stop
 
-		g_pulses = 0;
-        double rpm = (g_pulses / 5.0) * 60.0 / PULSES_WHEEL;
-        printf("Pulsos=%d, RPM≈%.1f\n", g_pulses, rpm);
+		SDL_Delay(25);
 
-		SDL_Delay(30);
+		std::thread	speedSensor(wheelRotationCalculation);
+
 		while (SDL_PollEvent(&e)) {
 
 			if (e.jbutton.button == START_BUTTON) {
 				std::cout << "Button start pressed. Exiting...\n";
+
+				try {
+					speedSensor.join();  
+					std::cout << "Main thread finished." << std::endl;
+				} catch () {
+
+				}
 				cleanExit();
 				return (0);
 			}
 		}
 	}
     std::cout << "The loop ended bitches!" << std::endl;
-
     cleanExit();
     return (0);
 }

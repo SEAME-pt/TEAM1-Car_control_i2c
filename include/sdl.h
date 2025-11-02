@@ -1,7 +1,7 @@
 #pragma once
 
 //libs:
-//standart
+//standart/general use
 #include <iostream>
 #include <csignal>
 #include <unistd.h>
@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 
 //speedSensor
+#include <thread>
 #include <pigpio.h>
 
 #include "../libs/include/I2c.hpp"
@@ -23,6 +24,9 @@ void			initGpio();
 void			signalHandler(int signum);
 void			cleanExit();
 double			mapAxisToAngle(double axisValue, double angleMin, double angleMax, double angleCenter);
+
+//sensors
+void			wheelRotationCalculation();
 
 extern SDL_Joystick*    g_joystick;
 extern int				g_pulses;
