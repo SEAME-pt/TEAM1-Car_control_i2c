@@ -59,6 +59,7 @@ int main() {
 				return (0);
 			}
 		}
+		speedSensor.join();
 	}
     std::cout << "The loop ended bitches!" << std::endl;
     cleanExit();

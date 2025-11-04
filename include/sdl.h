@@ -27,6 +27,8 @@ double			mapAxisToAngle(double axisValue, double angleMin, double angleMax, doub
 
 //sensors
 void			wheelRotationCalculation();
+void			pulse_callback(int gpio, int level, uint32_t tick);
+
 
 extern SDL_Joystick*    g_joystick;
 extern int				g_pulses;
@@ -43,6 +45,9 @@ extern int				g_pulses;
 
 //angle to centralize the servo of the car and use it as the default angle
 #define MID_ANGLE       60
+
+//Number of the fisical gpio pin that is connected
+#define	PIN_GPIO		24
 
 #define A_BUTTON		0
 #define B_BUTTON		1
