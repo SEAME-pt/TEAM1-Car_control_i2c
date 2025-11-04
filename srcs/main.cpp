@@ -64,5 +64,5 @@ int main() {
     return (0);
 }
 
-//c++ srcs/main.cpp srcs/initCar.cpp libs/srcs/I2c.cpp libs/srcs/I2c_PcA9685.cpp libs/srcs/I2c_INA219.cpp -lSDL2
+//c++ srcs/main.cpp srcs/init/init_car_i2c.cpp srcs/init/init_gpio.cpp srcs/sensors/speedSensor.cpp srcs/utils/exitCleanups.cpp srcs/utils/math_utils.cpp libs/srcs/I2c.cpp libs/srcs/I2c_PcA9685.cpp libs/srcs/I2c_INA219.cpp -lSDL2
 // git submodule update --init --recursive
