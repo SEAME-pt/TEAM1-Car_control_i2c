@@ -22,8 +22,11 @@ int main() {
         return (1);
     }
 
+	std::thread	speedSensor(wheelRotationCalculation);
+	bool running = true;
+
 	SDL_Event e;
-	while (true) {
+	while (running) {
 
 		float axisSteering = SDL_JoystickGetAxis(joystick, 2) / MAX_AXIS_VALUE;
 		float axisThrottle = SDL_JoystickGetAxis(joystick, 1) / MAX_AXIS_VALUE;
@@ -40,26 +43,23 @@ int main() {
 		else
 			I2c::stop_motors(); // Stop
 
-		SDL_Delay(25);
-
-		std::thread	speedSensor(wheelRotationCalculation);
-
 		while (SDL_PollEvent(&e)) {
 
-			if (e.jbutton.button == START_BUTTON) {
-				std::cout << "Button start pressed. Exiting...\n";
-				I2c::brake_motor();
-
-				speedSensor.join();  
-				std::cout << "Main thread finished." << std::endl;
-
-				cleanExit();
-				return (0);
+			if (e.type == SDL_JOYBUTTONDOWN) {
+				if (e.jbutton.button == START_BUTTON) {
+					std::cout << "Button start pressed. Exiting...\n";
+					I2c::brake_motor();
+					running = false;
+					cleanExit();
+					break ;
+				}
 			}
 		}
-		speedSensor.join();
+		SDL_Delay(25);
 	}
-    std::cout << "The loop ended bitches!" << std::endl;
+	speedSensor.join();
+    std::cout << "The main and speed sensor thread ended bitches!" << std::endl;
+
     cleanExit();
     return (0);
 }

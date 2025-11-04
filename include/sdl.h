@@ -12,6 +12,7 @@
 //speedSensor
 #include <thread>
 #include <pigpio.h>
+#include <atomic>
 
 #include "../libs/include/I2c.hpp"
 #include "exceptions.hpp"
@@ -31,7 +32,7 @@ void			pulse_callback(int gpio, int level, uint32_t tick);
 
 
 extern SDL_Joystick*    g_joystick;
-extern int				g_pulses;
+extern std::atomic<int> g_pulses;
 
 //index of the controller, if 0, the first, 
 //and only the first, has permission to connect

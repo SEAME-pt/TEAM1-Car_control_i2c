@@ -1,19 +1,29 @@
 #include "../../include/sdl.h"
 
 // global variable to count pulses on the wheel
-int	g_pulses = 0;
+std::atomic<int>	g_pulses{0};
 
 void	wheelRotationCalculation() {
 	
-	g_pulses = 0;
-	double rpm = (g_pulses / 5.0) * 60.0 / PULSES_WHEEL;
+	while (true) {
+		// sleep for measurement period
+		gpioDelay(5000000); // 5 seconds in microseconds
 
-	std::cout << g_pulses << " signals and is rotation at "
-		<< rpm << " per minute." << std::endl;
+		// read and reset pulse count atomically
+		int pulses = g_pulses.exchange(0);
+		
+		// calculate RPM: (pulses in 5s / PULSES_PER_REV) * (60s / 5s)
+		double rpm = (pulses / 5.0) * 60.0 / PULSES_WHEEL;
+
+		std::cout << pulses << " pulses, rotating at "
+			<< rpm << " RPM" << std::endl;
+	}
 }
 
 void	pulse_callback(int gpio, int level, uint32_t tick) {
 
-	if (!level) // FALLING edge
+	(void)gpio;
+    (void)tick;
+	if (level == 0) // FALLING edge
 		g_pulses++;
 }
