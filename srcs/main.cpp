@@ -48,13 +48,11 @@ int main() {
 
 			if (e.jbutton.button == START_BUTTON) {
 				std::cout << "Button start pressed. Exiting...\n";
+				I2c::brake_motor();
 
-				try {
-					speedSensor.join();  
-					std::cout << "Main thread finished." << std::endl;
-				} catch () {
+				speedSensor.join();  
+				std::cout << "Main thread finished." << std::endl;
 
-				}
 				cleanExit();
 				return (0);
 			}
