@@ -59,8 +59,10 @@ int main() {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_JOYBUTTONDOWN) {
 				if (e.jbutton.button == START_BUTTON) {
-					std::cout << "Button start pressed. Exiting..." << std::flush;;
+					std::cout << "Button start pressed. Exiting..." << std::flush;
 					running = false;
+					I2c::brake_motor();
+					cleanExit();
 					break ;
 				}
 			}
