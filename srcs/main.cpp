@@ -58,7 +58,7 @@ int main() {
 			if (e.jbutton.button == START_BUTTON) {
 				std::cout << "Button start pressed. Exiting...\n";
 				SDL_JoystickClose(joystick);
-				I2c::stop_all(); 
+				I2c::brake_motor(); 
 				SDL_Quit();
 				return 0;
 			} else if (e.jbutton.button == A_BUTTON) {
