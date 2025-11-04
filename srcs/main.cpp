@@ -17,7 +17,6 @@ int main() {
         joystick = initCar();
 
         if (!joystick) {
-            std::cerr << "ERROR: Failed to initialize joystick" << std::endl;
             cleanExit();
             return 1;
         }
@@ -31,12 +30,10 @@ int main() {
 	std::thread	speedSensor(wheelRotationCalculation);
 
     SDL_Event e;
-    std::cout << "Running main loop..." << std::endl;
     
     while (running) {
 
 		if (!joystick || !SDL_JoystickGetAttached(joystick)) {
-            std::cerr << "Joystick disconnected!" << std::endl;
             running = false;
             break;
         }
