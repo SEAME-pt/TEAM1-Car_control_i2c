@@ -1,6 +1,25 @@
-.vscode
-./a.out
+# Editor
+.vscode/
+
+# Build directories
+build/
+build-*/
+
+# Binaries
+a.out
+car
 *.o
 *.obj
 *.so
 *.exe
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Cross-compilation
+rpi-sysroot/
+*.tar.gz
