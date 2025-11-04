@@ -1,6 +1,6 @@
 #include "../include/sdl.h"
 
-// define the global joystick instance to properlly clear after sigint
+// define the global joystick instance to properly clear after sigint
 SDL_Joystick*	g_joystick = nullptr;
 
 int main() {
@@ -30,10 +30,10 @@ int main() {
 
 	std::thread	speedSensor(wheelRotationCalculation);
 
-	SDL_Event e;
-	std::cout << "Running main loop...\n";	
-	
-	while (running) {
+    SDL_Event e;
+    std::cout << "Running main loop...\n" << std::flush;
+    
+    while (running) {
 
 		if (!joystick || !SDL_JoystickGetAttached(joystick)) {
             std::cerr << "Joystick disconnected!\n";
@@ -57,10 +57,9 @@ int main() {
 			I2c::stop_motors(); // Stop
 
 		while (SDL_PollEvent(&e)) {
-
 			if (e.type == SDL_JOYBUTTONDOWN) {
 				if (e.jbutton.button == START_BUTTON) {
-					std::cout << "Button start pressed. Exiting...\n";
+					std::cout << "Button start pressed. Exiting..." << std::flush;;
 					running = false;
 					break ;
 				}
