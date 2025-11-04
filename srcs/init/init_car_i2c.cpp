@@ -19,5 +19,6 @@ SDL_Joystick* initCar() {
 
 	std::cout << "Joystick detected: " << SDL_JoystickName(joystick) << std::endl;
 
+	initI2c();
 	return (joystick);
 }

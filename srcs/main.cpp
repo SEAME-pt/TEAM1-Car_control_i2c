@@ -69,7 +69,7 @@ int main() {
 	}
 	// TODO: add flag to stop thread gracefully instead of join (thread runs infinite loop)
     // For now, detach it (not ideal but prevents hang)
-    speedSensor.detach();
+    speedSensor.join();
     std::cout << "The main and speed sensor thread ended bitches!" << std::endl;
 
     cleanExit();
