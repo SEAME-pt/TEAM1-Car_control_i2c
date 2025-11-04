@@ -7,14 +7,13 @@ void	wheelRotationCalculation() {
 	
 	std::cout << "Speed sensor thread started\n";
 	while (true) {
-		// sleep for measurement period
-		gpioDelay(5000000); // 5 seconds in microseconds
+		// sleep 1 second for measurement period
+		gpioDelay(1000000);
 
 		// read and reset pulse count atomically
 		int pulses = g_pulses.exchange(0);
 		
 		if (pulses > 0) {
-            // calculate rotations per minute
             double rpm = (pulses / (double)PULSES_WHEEL) * 12.0; // (60s / 5s) = 12
             std::cout << "Pulses: " << pulses << ", RPM: " << rpm << std::endl;
         }

@@ -17,7 +17,7 @@ int main() {
         joystick = initCar();
 
         if (!joystick) {
-            std::cerr << "ERROR: Failed to initialize joystick\n";
+            std::cerr << "ERROR: Failed to initialize joystick" << std::endl;
             cleanExit();
             return 1;
         }
@@ -31,12 +31,12 @@ int main() {
 	std::thread	speedSensor(wheelRotationCalculation);
 
     SDL_Event e;
-    std::cout << "Running main loop...\n" << std::flush;
+    std::cout << "Running main loop..." << std::endl;
     
     while (running) {
 
 		if (!joystick || !SDL_JoystickGetAttached(joystick)) {
-            std::cerr << "Joystick disconnected!\n";
+            std::cerr << "Joystick disconnected!" << std::endl;
             running = false;
             break;
         }
@@ -59,7 +59,7 @@ int main() {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_JOYBUTTONDOWN) {
 				if (e.jbutton.button == START_BUTTON) {
-					std::cout << "Button start pressed. Exiting..." << std::flush;
+					std::cout << "Button start pressed. Exiting..." << std::endl;
 					running = false;
 					I2c::brake_motor();
 					cleanExit();
@@ -69,8 +69,7 @@ int main() {
 		}
 		SDL_Delay(25);
 	}
-	// TODO: add flag to stop thread gracefully instead of join (thread runs infinite loop)
-    // For now, detach it (not ideal but prevents hang)
+
     speedSensor.join();
     std::cout << "The main and speed sensor thread ended bitches!" << std::endl;
 
@@ -78,5 +77,4 @@ int main() {
     return (0);
 }
 
-//c++ srcs/main.cpp srcs/init/init_car_i2c.cpp srcs/init/init_gpio.cpp srcs/sensors/speedSensor.cpp srcs/utils/exitCleanups.cpp srcs/utils/math_utils.cpp libs/srcs/I2c.cpp libs/srcs/I2c_PcA9685.cpp libs/srcs/I2c_INA219.cpp -lSDL2 -lpigpio
 // git submodule update --init --recursive
