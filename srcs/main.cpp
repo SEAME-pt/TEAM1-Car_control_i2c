@@ -8,6 +8,7 @@ int main() {
 	int steering = MID_ANGLE;		//rotation
 	int throttle = 0;				//direction & speed
 	SDL_Joystick *joystick = NULL;
+	bool running = true;			//condition to run the car
 
 	signal(SIGINT, signalHandler);
 
@@ -23,9 +24,9 @@ int main() {
     }
 
 	std::thread	speedSensor(wheelRotationCalculation);
-	bool running = true;
 
 	SDL_Event e;
+	std::cout << "running is " << running << "and so it will start the loop." << std::endl;
 	while (running) {
 
 		float axisSteering = SDL_JoystickGetAxis(joystick, 2) / MAX_AXIS_VALUE;
@@ -64,5 +65,5 @@ int main() {
     return (0);
 }
 
-//c++ srcs/main.cpp srcs/init/init_car_i2c.cpp srcs/init/init_gpio.cpp srcs/sensors/speedSensor.cpp srcs/utils/exitCleanups.cpp srcs/utils/math_utils.cpp libs/srcs/I2c.cpp libs/srcs/I2c_PcA9685.cpp libs/srcs/I2c_INA219.cpp -lSDL2
+//c++ srcs/main.cpp srcs/init/init_car_i2c.cpp srcs/init/init_gpio.cpp srcs/sensors/speedSensor.cpp srcs/utils/exitCleanups.cpp srcs/utils/math_utils.cpp libs/srcs/I2c.cpp libs/srcs/I2c_PcA9685.cpp libs/srcs/I2c_INA219.cpp -lSDL2 -lpigpio
 // git submodule update --init --recursive
