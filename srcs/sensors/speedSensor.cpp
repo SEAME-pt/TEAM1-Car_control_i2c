@@ -5,6 +5,7 @@ std::atomic<int>	g_pulses{0};
 
 void	wheelRotationCalculation() {
 	
+	std::cout << "Speed sensor thread started\n";
 	while (true) {
 		// sleep for measurement period
 		gpioDelay(5000000); // 5 seconds in microseconds
@@ -12,11 +13,11 @@ void	wheelRotationCalculation() {
 		// read and reset pulse count atomically
 		int pulses = g_pulses.exchange(0);
 		
-		// calculate RPM: (pulses in 5s / PULSES_PER_REV) * (60s / 5s)
-		double rpm = (pulses / 5.0) * 60.0 / PULSES_WHEEL;
-
-		std::cout << pulses << " pulses, rotating at "
-			<< rpm << " RPM" << std::endl;
+		if (pulses > 0) {
+            // calculate rotations per minute
+            double rpm = (pulses / (double)PULSES_WHEEL) * (60.0 / 5.0);
+            std::cout << "Pulses: " << pulses << ", RPM: " << rpm << std::endl;
+        }
 	}
 }
 
@@ -25,5 +26,5 @@ void	pulse_callback(int gpio, int level, uint32_t tick) {
 	(void)gpio;
     (void)tick;
 	if (level == 0) // FALLING edge
-		g_pulses++;
+		g_pulses.fetch_add(1, std::memory_order_relaxed);
 }
