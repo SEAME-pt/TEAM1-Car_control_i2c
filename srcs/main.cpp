@@ -23,7 +23,7 @@ int main() {
 		joystick = initCar();
 		g_joystick = joystick;
 	} catch (const std::exception &e) {
-		std::cerr << "Initialization failed: " << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
 		exitCar();
 	}
 
