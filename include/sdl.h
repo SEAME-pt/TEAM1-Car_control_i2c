@@ -22,7 +22,6 @@ SDL_Joystick*	initCar();
 void			initGpio();
 
 //utils
-void			signalHandler(int signum);
 void			cleanExit();
 double			mapAxisToAngle(double axisValue, double angleMin, double angleMax, double angleCenter);
 
@@ -30,9 +29,13 @@ double			mapAxisToAngle(double axisValue, double angleMin, double angleMax, doub
 void			wheelRotationCalculation();
 void			pulse_callback(int gpio, int level, uint32_t tick);
 
+//exit
+void	        exitCar();
+void	        cleanGpio();
 
 extern SDL_Joystick*    g_joystick;
 extern std::atomic<int> g_pulses;
+extern std::atomic<bool> g_running;
 
 //index of the controller, if 0, the first, 
 //and only the first, has permission to connect

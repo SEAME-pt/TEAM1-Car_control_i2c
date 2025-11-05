@@ -1,42 +1,54 @@
 #include "../include/sdl.h"
 
 // define the global joystick instance to properly clear after sigint
-SDL_Joystick*	g_joystick = nullptr;
+SDL_Joystick*		g_joystick = nullptr;
+std::atomic<bool>	g_running{true};
+
+static void	signalHandler(int signum) {
+
+    std::cout << "\nInterrupt operation (" << signum << ") received." << std::endl;
+	g_running = false;
+	cleanExit();
+}
 
 int main() {
 
 	int steering = MID_ANGLE;		//rotation
 	int throttle = 0;				//direction & speed
 	SDL_Joystick *joystick = NULL;
-	bool running = true;			//condition to run the car
 
 	signal(SIGINT, signalHandler);
 
-    try {
-		initGpio();
-        joystick = initCar();
+	try {
+		joystick = initCar();
+		g_joystick = joystick;
+	} catch (const std::exception &e) {
+		std::cerr << "Initialization failed: " << e.what() << std::endl;
+		exitCar();
+	}
 
-        if (!joystick) {
-            cleanExit();
-            return 1;
+	try {
+		initGpio();
+	} catch (const std::exception &e) {
+		if (g_joystick) {
+            SDL_JoystickClose(g_joystick);
+            g_joystick = nullptr;
         }
-        g_joystick = joystick;
-    } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
-		cleanExit();
-        return (1);
-    }
+        I2c::stop_all();
+        SDL_Quit();
+        exit(EXIT_FAILURE);
+	}
 
 	std::thread	speedSensor(wheelRotationCalculation);
 
-    SDL_Event e;
-    
-    while (running) {
+	SDL_Event e;
+	while (g_running) {
 
 		if (!joystick || !SDL_JoystickGetAttached(joystick)) {
-            running = false;
-            break;
-        }
+			std::cerr << "Joystick disconnected!" << std::endl;
+			g_running = false;
+			break ;
+		}
 
 		float axisSteering = SDL_JoystickGetAxis(joystick, 2) / MAX_AXIS_VALUE;
 		float axisThrottle = SDL_JoystickGetAxis(joystick, 1) / MAX_AXIS_VALUE;
@@ -56,10 +68,8 @@ int main() {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_JOYBUTTONDOWN) {
 				if (e.jbutton.button == START_BUTTON) {
-					std::cout << "Button start pressed. Exiting..." << std::endl;
-					running = false;
-					I2c::brake_motor();
-					cleanExit();
+					std::cout << "START button pressed. Exiting..." << std::endl;
+					g_running = false;
 					break ;
 				}
 			}
@@ -67,11 +77,11 @@ int main() {
 		SDL_Delay(25);
 	}
 
-    speedSensor.join();
-    std::cout << "The main and speed sensor thread ended bitches!" << std::endl;
+	speedSensor.join();
+	std::cout << "The main and speed sensor thread ended bitches!" << std::endl;
 
-    cleanExit();
-    return (0);
+	cleanExit();
+	return (0);
 }
 
 // git submodule update --init --recursive

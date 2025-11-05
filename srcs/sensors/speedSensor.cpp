@@ -6,7 +6,7 @@ std::atomic<int>	g_pulses{0};
 void	wheelRotationCalculation() {
 	
 	std::cout << "Speed sensor thread started\n";
-	while (true) {
+	while (g_running) {
 		// sleep 1 second for measurement period
 		gpioDelay(1000000);
 
@@ -24,6 +24,7 @@ void	pulse_callback(int gpio, int level, uint32_t tick) {
 
 	(void)gpio;
     (void)tick;
-	if (level == 0) // FALLING edge
+
+	if (level == 0)
 		g_pulses.fetch_add(1, std::memory_order_relaxed);
 }
