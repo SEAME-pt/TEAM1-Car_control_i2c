@@ -4,20 +4,13 @@
 SDL_Joystick*		g_joystick = nullptr;
 std::atomic<bool>	g_running{true};
 
-/* static void	signalHandler(int signum) {
-
-    std::cout << "\nInterrupt operation (" << signum << ") received." << std::endl;
-	g_running = false;
-	cleanExit();
-} */
-
 int main() {
 
 	int steering = MID_ANGLE;		//rotation
 	int throttle = 0;				//direction & speed
 	SDL_Joystick *joystick = NULL;
 
-	//signal(SIGINT, signalHandler);
+	signal(SIGINT, signalHandler);
 
 	try {
 		joystick = initCar();

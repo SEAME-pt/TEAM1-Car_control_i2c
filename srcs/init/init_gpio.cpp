@@ -5,6 +5,8 @@ void	initGpio() {
     if (gpioInitialise() < 0)
         throw GenException::InitException("Failed to initialize GPIO");
 
+    gpioSetSignalFunc(SIGINT, signalHandler);
+
     if (gpioSetMode(PIN_GPIO, PI_INPUT) < 0) {
         gpioTerminate();
         throw GenException::InitException("Failed to set GPIO pin mode");
