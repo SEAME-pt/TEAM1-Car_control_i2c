@@ -24,6 +24,10 @@ int main() {
 		g_joystick = joystick;
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << std::endl;
+		if (g_joystick)
+			std::cout << "hoi\n";
+		if (joystick)
+			std::cout << "hoiii\n";
 		exitSDL();
 	}
 
