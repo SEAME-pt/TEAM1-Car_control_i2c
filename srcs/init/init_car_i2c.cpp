@@ -4,7 +4,7 @@ void	initI2c() {
 
     try {
         I2c::All_init();
-        I2c::set_servo_angle(MID_ANGLE);
+        I2c::set_servo_angle(MID_ANGLE + 20);
     } catch (const std::exception &e) {
         throw GenException::InitException("ERROR! I2C initialization failed.");
     }
@@ -24,7 +24,8 @@ SDL_Joystick* initCar() {
 		SDL_Quit();
 		throw GenException::InitException("Failed to open joystick");
 	}
-
+	
 	std::cout << "Joystick detected: " << SDL_JoystickName(joystick) << std::endl;
+
 	return (joystick);
 }
