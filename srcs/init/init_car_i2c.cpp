@@ -4,7 +4,7 @@ void	initI2c() {
 
     try {
         I2c::All_init();
-        I2c::set_servo_angle(MID_ANGLE + 20);
+        I2c::set_servo_angle(MID_ANGLE);
     } catch (const std::exception &e) {
         throw GenException::InitException("ERROR! I2C initialization failed.");
     }
