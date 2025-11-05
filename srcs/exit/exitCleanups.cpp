@@ -20,7 +20,6 @@ void	cleanExit() {
 void	exitSDL() {
 
 	if (g_joystick) {
-		std::cout << "hoi\n";
 		SDL_JoystickClose(g_joystick);
 		g_joystick = nullptr;
 	}
