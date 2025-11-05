@@ -19,6 +19,7 @@
 
 //init
 SDL_Joystick*	initCar();
+void	        initI2c();
 void			initGpio();
 
 //utils
@@ -31,7 +32,7 @@ void			pulse_callback(int gpio, int level, uint32_t tick);
 
 //exit
 void	        exitCar();
-void	        cleanGpio();
+void	        exitSDL();
 
 extern SDL_Joystick*    g_joystick;
 extern std::atomic<int> g_pulses;

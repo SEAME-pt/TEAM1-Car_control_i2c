@@ -17,6 +17,15 @@ void	cleanExit() {
 	exit(EXIT_SUCCESS);
 }
 
+void	exitSDL() {
+
+	if (g_joystick) {
+		SDL_JoystickClose(g_joystick);
+		g_joystick = nullptr;
+	}
+	exit(EXIT_FAILURE);
+}
+
 void	exitCar() {
 
 	if (g_joystick) {
@@ -24,11 +33,6 @@ void	exitCar() {
 		g_joystick = nullptr;
 	}
 	I2c::stop_all();
-	SDL_Quit();
+    SDL_Quit();
 	exit(EXIT_FAILURE);
-}
-
-void cleanGpio() {
-    gpioSetAlertFunc(PIN_GPIO, NULL);
-    gpioTerminate();
 }

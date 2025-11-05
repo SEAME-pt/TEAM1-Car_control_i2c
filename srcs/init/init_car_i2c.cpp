@@ -1,12 +1,12 @@
 #include "../../include/sdl.h"
 
-static void    initI2c() {
+void	initI2c() {
 
     try {
         I2c::All_init();
         I2c::set_servo_angle(MID_ANGLE);
     } catch (const std::exception &e) {
-        throw std::runtime_error(std::string("I2C initialization failed: ") + e.what());
+        throw GenException::InitException("ERROR! I2C initialization failed.");
     }
 }
 
@@ -26,14 +26,5 @@ SDL_Joystick* initCar() {
 	}
 
 	std::cout << "Joystick detected: " << SDL_JoystickName(joystick) << std::endl;
-
-	try {
-        initI2c();
-    } catch (const std::exception &e) {
-        SDL_JoystickClose(joystick);
-        SDL_Quit();
-        throw ;
-    }
-
 	return (joystick);
 }

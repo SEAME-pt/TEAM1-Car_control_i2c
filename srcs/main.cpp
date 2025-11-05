@@ -24,19 +24,19 @@ int main() {
 		g_joystick = joystick;
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << std::endl;
-		exitCar();
+		exitSDL();
+	}
+
+	try {
+		initI2c();
+	} catch (const std::exception &e) {
+		std::cerr << e.what() << std::endl;
 	}
 
 	try {
 		initGpio();
 	} catch (const std::exception &e) {
-		if (g_joystick) {
-            SDL_JoystickClose(g_joystick);
-            g_joystick = nullptr;
-        }
-        I2c::stop_all();
-        SDL_Quit();
-        exit(EXIT_FAILURE);
+		exitCar();
 	}
 
 	std::thread	speedSensor(wheelRotationCalculation);
