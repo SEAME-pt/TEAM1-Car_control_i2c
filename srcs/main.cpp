@@ -46,7 +46,7 @@ int main() {
 		float axisSteering = SDL_JoystickGetAxis(joystick, 2) / MAX_AXIS_VALUE;
 		float axisThrottle = SDL_JoystickGetAxis(joystick, 1) / MAX_AXIS_VALUE;
 
-		steering = static_cast<int>(mapAxisToAngle(axisSteering, 0, 120, 60));
+		steering = static_cast<int>(mapAxisToAngle(axisSteering, MID_ANGLE - 60, MID_ANGLE + 60, MID_ANGLE));
 		throttle = static_cast<int>(mapAxisToAngle(axisThrottle, -100, 100, 0));
 
 		I2c::set_servo_angle(steering);

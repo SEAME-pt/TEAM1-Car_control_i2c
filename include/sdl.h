@@ -50,7 +50,7 @@ extern std::atomic<bool> g_running;
 #define	PULSES_WHEEL	20
 
 //angle to centralize the servo of the car and use it as the default angle
-#define MID_ANGLE       60
+#define MID_ANGLE       81
 
 //Number of the fisical gpio pin that is connected
 #define	PIN_GPIO		24
