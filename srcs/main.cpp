@@ -51,6 +51,7 @@ int main() {
 
 		I2c::set_servo_angle(steering);
 
+		std::cout << steering << std::endl;
 		if (throttle > 0)
 			I2c::motor(0, throttle, 1); // Backward
 		else if (throttle < 0)

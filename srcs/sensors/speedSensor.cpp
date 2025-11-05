@@ -15,7 +15,7 @@ void	wheelRotationCalculation() {
 		
 		if (pulses > 0) {
             double rpm = (pulses / (double)PULSES_WHEEL) * 12.0; // (60s / 5s) = 12
-            std::cout << "Pulses: " << pulses << ", RPM: " << rpm << std::endl;
+            //std::cout << "Pulses: " << pulses << ", RPM: " << rpm << std::endl;
         }
 	}
 }
