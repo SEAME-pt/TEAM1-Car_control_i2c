@@ -49,6 +49,7 @@ add_subdirectory(libs)
 set(CAR_SOURCES
     srcs/main.cpp
     srcs/exit/exitCleanups.cpp
+    srcs/exit/signals.cpp
     srcs/init/init_car_i2c.cpp
     srcs/init/init_gpio.cpp
     srcs/sensors/speedSensor.cpp
