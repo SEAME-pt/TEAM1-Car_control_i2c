@@ -7,7 +7,7 @@ void	cleanExit() {
 		g_joystick = nullptr;
 	}
 
-    I2c::stop_all();
+	I2c::All_close();
 
     SDL_Quit();
 
@@ -32,7 +32,7 @@ void	exitCar() {
 		SDL_JoystickClose(g_joystick);
 		g_joystick = nullptr;
 	}
-	I2c::stop_all();
+	I2c::All_close();
     SDL_Quit();
 	exit(EXIT_FAILURE);
 }
