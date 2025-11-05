@@ -1,16 +1,20 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include <exception>
 #include <string>
 
 class GenException {
 
 public:
     class InitException : public std::exception {
+        private:
+            std::string message;
+            
         public:
-			const char* what() const throw() {
-                return (SDL_GetError());
+            InitException(const std::string& msg) : message(msg) {}
+            
+            const char* what() const throw() {
+                return message.c_str();
             }
     };
-
 };

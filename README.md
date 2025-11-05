@@ -21,9 +21,10 @@ include/
 
 ## Build
 ```bash
-c++ srcs/main.cpp srcs/initCar.cpp \
-    libs/srcs/I2c.cpp libs/srcs/I2c_PcA9685.cpp libs/srcs/I2c_INA219.cpp \
-    -lSDL2
+mkdir build && cd build
+cmake ..
+make
+sudo ./car
 ```
 
  Main Components
