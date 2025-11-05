@@ -24,8 +24,6 @@ int main() {
 		g_joystick = joystick;
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << std::endl;
-		delete g_joystick;
-		delete joystick;
 		exitSDL();
 	}
 
