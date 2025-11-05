@@ -25,8 +25,6 @@ void	exitCar() {
 	}
 	I2c::stop_all();
 	SDL_Quit();
-	gpioSetAlertFunc(PIN_GPIO, NULL);
-    gpioTerminate();
 	exit(EXIT_FAILURE);
 }
 
