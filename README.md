@@ -69,5 +69,3 @@ sudo ./car
 - Afonso
 - Rafael
 - Joao
-
-For a more detailed overview, please refer to the next readme.md file.
