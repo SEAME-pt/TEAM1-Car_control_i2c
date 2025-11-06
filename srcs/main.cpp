@@ -9,6 +9,7 @@ int main() {
 	int steering = MID_ANGLE;		//rotation
 	int throttle = 0;				//direction & speed
 	SDL_Joystick *joystick = NULL;
+	int	rawSteering;				//temp variable to prevent burning the cervo with multiple calls;
 
 	signal(SIGINT, signalHandler);
 
@@ -46,10 +47,14 @@ int main() {
 		float axisSteering = SDL_JoystickGetAxis(joystick, 2) / MAX_AXIS_VALUE;
 		float axisThrottle = SDL_JoystickGetAxis(joystick, 1) / MAX_AXIS_VALUE;
 
-		steering = static_cast<int>(mapAxisToAngle(axisSteering, MID_ANGLE - 60, MID_ANGLE + 80, MID_ANGLE));
 		throttle = static_cast<int>(mapAxisToAngle(axisThrottle, -100, 100, 0));
+		rawSteering = static_cast<int>(mapAxisToAngle(axisSteering, MID_ANGLE - 60, MID_ANGLE + 60, MID_ANGLE));
+		rawSteering = (rawSteering / 5) * 5;
+		if (rawSteering != steering) {
+			steering = rawSteering;
+			I2c::set_servo_angle(steering);
+		}
 
-		I2c::set_servo_angle(steering);
 
 		std::cout << steering << std::endl;
 		if (throttle > 0)
@@ -62,7 +67,7 @@ int main() {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_JOYBUTTONDOWN) {
 				if (e.jbutton.button == START_BUTTON) {
-					std::cout << "START button pressed. Exiting..." << std::endl;
+					std::cout << "START button pressed. Exiting...\n";
 					g_running = false;
 					break ;
 				}
@@ -72,8 +77,7 @@ int main() {
 	}
 
 	speedSensor.join();
-	std::cout << "The main and speed sensor thread ended bitches!" << std::endl;
-
+	std::cout << "Program has reached the end with success. It was a pleasure. Shutting down..." << std::endl;
 	cleanExit();
 	return (0);
 }

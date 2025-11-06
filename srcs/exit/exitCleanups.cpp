@@ -14,6 +14,8 @@ void	cleanExit() {
 	gpioSetAlertFunc(PIN_GPIO, NULL);
     gpioTerminate();
 
+	std::cout << "Program has reached the end with success. It was a pleasure. Shutting down..." << std::endl;
+
 	exit(EXIT_SUCCESS);
 }
 
