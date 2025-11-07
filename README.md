@@ -59,7 +59,7 @@ sudo ./car
 
 # 3D Car Design
 
-![3D_Car](https://github.com/user-attachments/assets/8f43435f-64be-477a-a1f1-4633c5882d7c)
+![car](https://github.com/user-attachments/assets/4c4beb0f-d26a-477a-bbbb-80e5452a20ef)
 
 ---
 
